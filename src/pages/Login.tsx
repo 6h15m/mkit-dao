@@ -25,10 +25,10 @@ export const Login = () => {
   };
 
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center bg-neutral-200">
-      <h1 className="text-4xl mb-6">mkitDAO</h1>
-      <div className="flex justify-center gap-x-8">
-        <button className="p-3 bg-stone-800 text-stone-50" onClick={login}>
+    <div className="w-full h-screen flex flex-col items-center justify-center bg-zinc-800">
+      <div className="flex flex-col items-center justify-center gap-y-6">
+        <h1 className="text-5xl text-stone-50 font-bold">mkitDAO</h1>
+        <button className="p-3 bg-stone-700 text-stone-50" onClick={login}>
           Metamask Login
         </button>
       </div>

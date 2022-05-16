@@ -47,18 +47,25 @@ export const Main = () => {
   };
 
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center bg-neutral-200">
-      <h1 className="text-4xl mb-6">mkitDAO Main</h1>
-      <div className="flex justify-center gap-x-8">
-        {isMemberOfFoxyDrakeDAO && (
-          <Link className="p-3 bg-stone-800 text-stone-50" to="/dao/foxy-drake">
-            Foxy Drake DAO
+    <div className="w-full h-screen flex flex-col items-center justify-between bg-zinc-800">
+      <div />
+      <div className="flex flex-col items-center justify-center gap-y-6">
+        <h1 className="text-5xl text-stone-50 font-bold">mkitDAO</h1>
+        {isMemberOfFoxyDrakeDAO ? (
+          <Link className="p-3 bg-stone-700 text-stone-50" to="/dao/foxy-drake">
+            Go to Foxy Drake DAO
           </Link>
+        ) : (
+          <p className="p-3 text-stone-50 text-center">
+            You are not in Foxy Drake DAO!
+            <br />
+            Go to Salt in Hurt Discord Channel.
+          </p>
         )}
-        <button className="p-3 bg-stone-800 text-stone-50" onClick={logOut}>
-          Metamask Logout
-        </button>
       </div>
+      <button className="p-3 bg-stone-800 text-stone-50" onClick={logOut}>
+        Metamask Logout
+      </button>
     </div>
   );
 };
