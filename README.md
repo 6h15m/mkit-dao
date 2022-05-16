@@ -7,5 +7,5 @@
 
 ## 실행
 ```
-yarn start
+yarn start // open in http://localhost:3000/
 ```
