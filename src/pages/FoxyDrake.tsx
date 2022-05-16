@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 
 type NFT = {
   token_address: string;
+  token_uri: string | null;
+  token_id: string;
   name: string;
   metadata: string | null;
 };
@@ -43,6 +45,8 @@ export const FoxyDrake = () => {
     setMyFoxyDrakes(
       testnetNFTs.result.map((result) => ({
         token_address: result.token_address,
+        token_uri: result.token_uri ?? null,
+        token_id: result.token_id,
         name: result.name,
         metadata: result.metadata ?? null,
       })),
@@ -67,7 +71,14 @@ export const FoxyDrake = () => {
         <h1 className="text-5xl text-stone-50 font-bold">Foxy Drake Club</h1>
         <ul>
           {myFoxyDrakes?.map((myFoxyDrake) => (
-            <li className="text-white">{myFoxyDrake.token_address} 🦊</li>
+            <li className="text-white mb-2">
+              <a
+                href={`https://testnets.opensea.io/assets/${myFoxyDrake.token_address}/${myFoxyDrake.token_id}`}
+                target="_blank"
+              >
+                {myFoxyDrake.token_address} 🦊
+              </a>
+            </li>
           )) ?? (
             <span className="text-white">Loading Your Foxy Drakes....</span>
           )}
