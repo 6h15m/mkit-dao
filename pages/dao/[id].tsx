@@ -1,6 +1,7 @@
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Head from "next/head";
 import { useMoralis, useMoralisWeb3Api } from "react-moralis";
-import { useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
 
 type NFT = {
   token_address: string;
@@ -10,15 +11,16 @@ type NFT = {
   metadata: string | null;
 };
 
-export const FoxyDrake = () => {
+const Dao = () => {
+  const router = useRouter();
+  const { id } = router.query;
   const { user, isAuthenticated, logout } = useMoralis();
-  const navigate = useNavigate();
   const Web3Api = useMoralisWeb3Api();
-  const [myFoxyDrakes, setMyFoxyDrakes] = useState<Array<NFT> | null>(null);
+  const [myFoxyDrakes, setMyFoxyDrakes] = useState<Array<NFT>>([]);
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate(`/login`);
+      router.push(`/login`).then();
     }
 
     fetchNFTsForContract().then(() => console.log("fetched!"));
@@ -40,7 +42,7 @@ export const FoxyDrake = () => {
       ],
     });
     if (testnetNFTs.result == null) {
-      return navigate(`/`);
+      return router.push(`/`).then();
     }
     setMyFoxyDrakes(
       testnetNFTs.result.map((result) => ({
@@ -55,38 +57,45 @@ export const FoxyDrake = () => {
 
   const logOut = async () => {
     await logout()
-      .then(function () {
-        navigate(`/login`);
+      .then(() => {
+        router.push(`/login`).then();
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error);
       });
     console.log("logout");
   };
 
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-between bg-zinc-800">
-      <div />
-      <div className="flex flex-col items-center justify-center gap-y-6">
-        <h1 className="text-5xl text-stone-50 font-bold">Foxy Drake Club</h1>
-        <ul>
-          {myFoxyDrakes?.map((myFoxyDrake) => (
-            <li className="text-white mb-2">
-              <a
-                href={`https://testnets.opensea.io/assets/${myFoxyDrake.token_address}/${myFoxyDrake.token_id}`}
-                target="_blank"
-              >
-                {myFoxyDrake.token_address} 🦊
-              </a>
-            </li>
-          )) ?? (
-            <span className="text-white">Loading Your Foxy Drakes....</span>
-          )}
-        </ul>
-      </div>
-      <button className="p-3 bg-stone-800 text-stone-50" onClick={logOut}>
-        Metamask Logout
-      </button>
-    </div>
+    <>
+      <Head>
+        <title>Foxy Drake Club | mkitDAO</title>
+      </Head>
+      <main className="w-full h-screen flex flex-col items-center justify-between bg-zinc-800">
+        <div />
+        <div className="flex flex-col items-center justify-center gap-y-6">
+          <h1 className="text-5xl text-stone-50 font-bold">Foxy Drake Club</h1>
+          <ul>
+            {myFoxyDrakes?.map((myFoxyDrake) => (
+              <li className="text-white mb-2">
+                <a
+                  href={`https://testnets.opensea.io/assets/${myFoxyDrake.token_address}/${myFoxyDrake.token_id}`}
+                  target="_blank"
+                >
+                  {myFoxyDrake.token_address} 🦊
+                </a>
+              </li>
+            )) ?? (
+              <span className="text-white">Loading Your Foxy Drakes....</span>
+            )}
+          </ul>
+        </div>
+        <button className="p-3 bg-stone-800 text-stone-50" onClick={logOut}>
+          Metamask Logout
+        </button>
+      </main>
+    </>
   );
 };
+
+export default Dao;
