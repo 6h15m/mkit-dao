@@ -8,5 +8,5 @@
 ## 실행
 
 ```
-yarn start
+yarn dev
 ```
